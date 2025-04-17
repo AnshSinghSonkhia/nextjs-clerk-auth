@@ -27,14 +27,20 @@ export default function Login() {
         console.log(result);
       }
     } catch (err) {
-        if (err instanceof Error) {
-          // Optional: add fallback for Clerk-specific error format
-          const clerkError = (err as any);
-          setError(clerkError?.errors?.[0]?.message || err.message);
+        if (
+          typeof err === "object" &&
+          err !== null &&
+          "errors" in err &&
+          Array.isArray((err as { errors: unknown[] }).errors)
+        ) {
+          const firstError = (err as { errors: { message?: string }[] }).errors[0];
+          setError(firstError?.message || "An error occurred");
+        } else if (err instanceof Error) {
+          setError(err.message);
         } else {
           setError("Something went wrong");
         }
-      }
+    }
   };
 
   return (
