@@ -24,8 +24,14 @@ export default function Signup() {
 
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setPendingVerification(true);
-    } catch (err: any) {
-      setError(err.errors[0]?.message || "Signup failed");
+    } catch (err) {
+        if (err instanceof Error) {
+          // Optional: add fallback for Clerk-specific error format
+          const clerkError = (err as any);
+          setError(clerkError?.errors?.[0]?.message || err.message);
+        } else {
+          setError("Something went wrong");
+        }
     }
   };
 
@@ -42,8 +48,14 @@ export default function Signup() {
         await setActive({ session: result.createdSessionId });
         router.push("/dashboard");
       }
-    } catch (err: any) {
-      setError(err.errors[0]?.message || "Verification failed");
+    } catch (err) {
+        if (err instanceof Error) {
+          // Optional: add fallback for Clerk-specific error format
+          const clerkError = (err as any);
+          setError(clerkError?.errors?.[0]?.message || err.message);
+        } else {
+          setError("Something went wrong");
+        }
     }
   };
 

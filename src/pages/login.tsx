@@ -26,9 +26,15 @@ export default function Login() {
       } else {
         console.log(result);
       }
-    } catch (err: any) {
-      setError(err.errors[0]?.message || "Login failed");
-    }
+    } catch (err) {
+        if (err instanceof Error) {
+          // Optional: add fallback for Clerk-specific error format
+          const clerkError = (err as any);
+          setError(clerkError?.errors?.[0]?.message || err.message);
+        } else {
+          setError("Something went wrong");
+        }
+      }
   };
 
   return (
