@@ -104,6 +104,15 @@ export default function Signup() {
             >
               Sign Up
             </button>
+            <p className="text-center text-sm text-black mt-4">
+                Already have an account?{" "}
+                <span
+                    onClick={() => router.push("/login")}
+                    className="text-blue-600 hover:underline cursor-pointer"
+                >
+                    Log in
+                </span>
+            </p>   
           </form>
         ) : (
           <form onSubmit={handleVerify} className="space-y-4">
