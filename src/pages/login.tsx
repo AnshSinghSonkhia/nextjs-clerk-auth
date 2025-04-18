@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSignIn } from "@clerk/nextjs";
+import InteractiveBackground4 from "@/components/InteractiveBackground4";
 
 export default function Login() {
   const router = useRouter();
@@ -27,25 +28,29 @@ export default function Login() {
         console.log(result);
       }
     } catch (err) {
-        if (
-          typeof err === "object" &&
-          err !== null &&
-          "errors" in err &&
-          Array.isArray((err as { errors: unknown[] }).errors)
-        ) {
-          const firstError = (err as { errors: { message?: string }[] }).errors[0];
-          setError(firstError?.message || "An error occurred");
-        } else if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Something went wrong");
-        }
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "errors" in err &&
+        Array.isArray((err as { errors: unknown[] }).errors)
+      ) {
+        const firstError = (err as { errors: { message?: string }[] }).errors[0];
+        setError(firstError?.message || "An error occurred");
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong");
+      }
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background */}
+      <InteractiveBackground4 />
+
+      {/* Foreground Login Box */}
+      <div className="relative z-10 bg-white bg-opacity-90 p-8 rounded-2xl shadow-2xl backdrop-blur-md w-full max-w-sm">
         <h2 className="text-2xl font-semibold mb-6 text-center text-black">Login</h2>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
@@ -53,7 +58,7 @@ export default function Login() {
             <input
               type="email"
               className="w-full px-4 border py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 border-gray-300"
-              placeholder="you@example.com"
+              placeholder="your@example.com"
               value={email}
               required
               onChange={(e) => setEmail(e.target.value)}
@@ -75,7 +80,7 @@ export default function Login() {
           )}
           <button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded-lg hover:bg-black transition cursor-pointer"
+            className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900 transition cursor-pointer"
           >
             Sign In
           </button>

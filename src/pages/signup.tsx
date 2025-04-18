@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSignUp } from "@clerk/nextjs";
+import InteractiveBackground4 from "@/components/InteractiveBackground4";
 
 export default function Signup() {
   const router = useRouter();
@@ -25,19 +26,19 @@ export default function Signup() {
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setPendingVerification(true);
     } catch (err) {
-        if (
-          typeof err === "object" &&
-          err !== null &&
-          "errors" in err &&
-          Array.isArray((err as { errors: unknown[] }).errors)
-        ) {
-          const firstError = (err as { errors: { message?: string }[] }).errors[0];
-          setError(firstError?.message || "An error occurred");
-        } else if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Something went wrong");
-        }
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "errors" in err &&
+        Array.isArray((err as { errors: unknown[] }).errors)
+      ) {
+        const firstError = (err as { errors: { message?: string }[] }).errors[0];
+        setError(firstError?.message || "An error occurred");
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong");
+      }
     }
   };
 
@@ -46,34 +47,36 @@ export default function Signup() {
     if (!isLoaded) return;
 
     try {
-      const result = await signUp.attemptEmailAddressVerification({
-        code,
-      });
+      const result = await signUp.attemptEmailAddressVerification({ code });
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
         router.push("/dashboard");
       }
     } catch (err) {
-        if (
-          typeof err === "object" &&
-          err !== null &&
-          "errors" in err &&
-          Array.isArray((err as { errors: unknown[] }).errors)
-        ) {
-          const firstError = (err as { errors: { message?: string }[] }).errors[0];
-          setError(firstError?.message || "An error occurred");
-        } else if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Something went wrong");
-        }
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "errors" in err &&
+        Array.isArray((err as { errors: unknown[] }).errors)
+      ) {
+        const firstError = (err as { errors: { message?: string }[] }).errors[0];
+        setError(firstError?.message || "An error occurred");
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong");
       }
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background */}
+      <InteractiveBackground4 />
+
+      {/* Signup Form */}
+      <div className="relative z-10 bg-white bg-opacity-90 backdrop-blur-md p-8 rounded-2xl shadow-md w-full max-w-sm">
         <h2 className="text-2xl font-semibold mb-6 text-center text-black">Sign Up</h2>
 
         {!pendingVerification ? (
@@ -81,7 +84,7 @@ export default function Signup() {
             <input
               type="email"
               placeholder="Email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-gray-700"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               value={email}
               required
               onChange={(e) => setEmail(e.target.value)}
@@ -89,7 +92,7 @@ export default function Signup() {
             <input
               type="password"
               placeholder="Password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300 text-gray-700"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300 text-gray-900"
               value={password}
               required
               onChange={(e) => setPassword(e.target.value)}
