@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+// import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from '@/components/Navbar';
 // import InteractiveBackground from "@/components/InteractiveBackground";
 // import InteractiveBackground2 from "@/components/InteractiveBackground2";

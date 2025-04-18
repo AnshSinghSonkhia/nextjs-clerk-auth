@@ -61,8 +61,8 @@ export default function InteractiveBackground3() {
     const updateBlobs = () => {
       setBlobs((prev) =>
         prev.map((blob) => {
-          let x = blob.x + blob.dx * blob.speed
-          let y = blob.y + blob.dy * blob.speed
+          const x = blob.x + blob.dx * blob.speed
+          const y = blob.y + blob.dy * blob.speed
           if (x <= 0 || x >= window.innerWidth - BLOB_SIZE) blob.dx *= -1
           if (y <= 0 || y >= window.innerHeight - BLOB_SIZE) blob.dy *= -1
           return {

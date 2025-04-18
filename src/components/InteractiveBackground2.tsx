@@ -59,8 +59,8 @@ export default function InteractiveBackground2() {
     const update = () => {
       setBlobs((prev) =>
         prev.map((b) => {
-          let x = b.x + b.dx * b.speed
-          let y = b.y + b.dy * b.speed
+          const x = b.x + b.dx * b.speed
+          const y = b.y + b.dy * b.speed
 
           // Bounce off edges
           if (x < 0 || x > window.innerWidth) b.dx *= -1

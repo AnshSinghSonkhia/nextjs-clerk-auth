@@ -67,8 +67,8 @@ const InteractiveBackground5: React.FC = () => {
     const interval = setInterval(() => {
       setBlobs(prev =>
         prev.map(b => {
-          let newX = b.x + b.dx * 2;
-          let newY = b.y + b.dy * 2;
+          const newX = b.x + b.dx * 2;
+          const newY = b.y + b.dy * 2;
   
           // Bounce off walls
           if (newX < 0 || newX > window.innerWidth - blobSize) b.dx *= -1;
