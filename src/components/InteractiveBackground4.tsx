@@ -1,4 +1,5 @@
 'use client';
+// eslint-disable-next-line react-hooks/exhaustive-deps
 
 import React, { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
@@ -53,8 +54,8 @@ const InteractiveBackground4: React.FC = () => {
     const interval = setInterval(() => {
       setBlobs((prev) =>
         prev.map((b) => {
-          let newX = b.x + b.dx * 3; // Increased speed here
-          let newY = b.y + b.dy * 3; // Increased speed here
+          const newX = b.x + b.dx * 3; // Increased speed here
+          const newY = b.y + b.dy * 3; // Increased speed here
 
           // Bounce off walls
           if (newX < 0 || newX > window.innerWidth - blobSize) b.dx *= -1;
